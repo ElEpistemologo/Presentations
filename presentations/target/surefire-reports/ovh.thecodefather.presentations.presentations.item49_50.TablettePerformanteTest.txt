@@ -1,0 +1,13 @@
+-------------------------------------------------------------------------------
+Test set: ovh.thecodefather.presentations.presentations.item49_50.TablettePerformanteTest
+-------------------------------------------------------------------------------
+Tests run: 7, Failures: 0, Errors: 1, Skipped: 6, Time elapsed: 0.014 s <<< FAILURE! -- in ovh.thecodefather.presentations.presentations.item49_50.TablettePerformanteTest
+ovh.thecodefather.presentations.presentations.item49_50.TablettePerformanteTest.highEndMuted -- Time elapsed: 0.006 s <<< ERROR!
+java.lang.NullPointerException
+	at java.base/java.util.Objects.requireNonNull(Objects.java:233)
+	at ovh.thecodefather.presentations.presentations.item49_50.TablettePerformante.<init>(TablettePerformante.java:26)
+	at ovh.thecodefather.presentations.presentations.item49_50.TablettePerformanteTest.highEndMuted(TablettePerformanteTest.java:64)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:578)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+

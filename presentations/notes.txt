@@ -1,0 +1,107 @@
+ITEM 10 - LE CONTRAT DE EQUALS()
+
+Relation d'équivalence: réflexivité, symmétricité, transitivité, constant, pour null en argument, renvoit faux
+
+Symmétricité: CaseInsensitiveString
+
+Transitivité: Point, ColorPoint
+
+	 La transitivité est facile à enfreindre si une sous-classe ajoute un attribut qui affecte la comparaison
+	
+	 Problème des relations d'équivalences dans les languages orientés objets
+	
+	 Il n'est pas possible de préserver le contract de la méthode equals, dans une sous-classe d'une classe concrète
+	 ajoutant un attribut "valeur"
+	 (possible avec sous classe de classe abstraite puisqu'il n'est pas possible d'instancier cette dernière)
+	
+	 COMPOSITION
+	 (Item 18 -> Favor composition over inheritance)
+	
+	 L'utilisation de getClass() à la place d'instanceof n'est pas acceptable !!
+	 Enfreint le principe de substition du Liskov
+	 Rend inégales les implémentations d'une même classe. => une sous classe de Point ne "sera" plus un Point
+	 
+	 instanceof => LSP friendly, inheritance friendly, mais si une sous-classe override equals => symmétricité perdue
+		il vaut mieux donc déclarer final le equals avec instanceof
+	 getClas => robuste car pas de possibilité d'enfreindre la symmétricité avec les sous-classe, mais enfreint le LSP
+	
+	 Timestamp et Date => à ne pas utiliser dans la même collection, c'est un défaut du JDK
+	 
+Consistency:
+	
+	ne pas override un equals qui repose sur des ressources pas fiable
+	
+Nun-nullity:
+
+Conclusion:
+
+	1- utilise le = pour comparer l'identité
+	2- instanceof pour vérifier le type
+	3- cast ou pattern matching
+	4- comparer tous les champs valeurs
+		tous les types primitifs sauf flaot et double => ==
+		float & double => Float/Double.compare()
+		objet
+
+Float.compare(float, float) pour les float	Nan != Nan => true
+Double.compare(double, double) pour les double	voir JLS 15.21.1
+
+La façon la plus facile de ne pas avoir de problème: ne pas override equals
+
+ITEM 10 - LE CONTRAT DE HASHCODE()
+
+toujours override hashcode lorsqu'un override equals:
+
+1- Si a.equals(b) == true, alors a.hashCode() doit être égal à b.hashCode()
+2- la méthode hashCode doit toujours renvoyer la même valeur, si aucune valeur prise en compte par equals a été modifiée
+3- il n'est pas nécessaire que hashcode renvoit deux valeurs différentes pour deux instances non égales d'après equals()
+
+	hashcode toujours égal: perf quadratique au lieu de linéaire pour des collections.
+	idéalement hashcode doit renvoyer valeur différente si a.equals(b) renvoit faux, et répartition uniforme sur toutes les valeurs de int
+
+  Pour les éléments significations à la comparaison logique:
+  
+  pour un tableau: hash code pour les éléments significatifs
+  si tous les élements sont significatifs: utiliser Arrrays.hashCode
+  si aucun une constante mais pas zéro
+  	
+  possible d'ommettre des champs dérivés
+  exclure obligatoirement les champs non-utilisés pour l'égalité logique
+  
+	 pour les objets immutables => mettre en cache le hash à la création, ou en lazy-init.
+
+ 	 Génération avec Eclipse
+	 
+ITEM 49-50-76 - CHECK FOR PARAMETERS VALIDITY, MAKE DEFENSIVE COPIES WHEN NEEDED, STRIVE FOR FAILURE ATOMICITY
+
+invariant: quelque chose qui doit toujours être vrai
+
+	 FAIL-FAST, détecter les erreurs aussi tôt que possible
+	 Ne va pas laisser un objet corrompu se balader dans le système
+	 particulièrement important pour les constructeurs
+	 respecte la failure-atomicity (item 76)
+	 TOCTOU attack (et pas avec la métode clone)
+	 ne pas utiliser .clone(...) sur un objet venant de l'extérieur et d'une classe non-finale car il pourrait être override pour
+	 renvoyer une sous-classe malicieuse
+	une des meilleurs façon de protéger ses invariants est de construires des classes dont les instances sont immutables
+	les copies défensives ont un coût, peu de pas être nécessaire si les deux parties se font confiance
+	
+	failure-atomicity: une méthode qui échoue doit laisser l'objet dans le même état qu'avant l'appel
+	assert à la place d'un commentaire
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
