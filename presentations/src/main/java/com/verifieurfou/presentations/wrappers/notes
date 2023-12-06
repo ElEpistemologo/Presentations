@@ -1,0 +1,12 @@
+
+-XX:AutoBoxCacheMax=2000
+
+"Applying the == operator to boxed primitives is almost always wrong" Effective java item 61 p274
+
+Références:
+
+- J. Bloch et N. Gafter, Java puzzlers: traps, pitfalls, and corner cases. Upper Saddle River, NJ: Addison-Wesley, 2005.
+- J. Bloch, Effective Java, Third edition. Boston: Addison-Wesley, 2018. Items 24, 61
+- H. Schildt, Java: The complete reference, Twelfth edition. New York [NY]: McGraw Hill, 2022. (Chapitre 7 "Understanding static")
+- J. Gosling et al., The Java® Language Specification, Java SE 21 Edition. 2023. (8.3.1.1)
+- T. Lindholm, F. Yellin, G. Bracha, A. Buckley, et D. Smith, The Java® Virtual Machine Specification Java SE 21 Edition. 2023. (5.4.2; 5.5)

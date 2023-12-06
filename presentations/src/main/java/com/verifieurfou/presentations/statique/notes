@@ -1,0 +1,41 @@
+Attributs statiques 
+
+	StaticFieldDemo
+
+	- Les attributs statiques sont partagés entre toutes les instances d'une classe
+	- Ils peuvent être accédés sans avoir aucune instance de la classe
+	
+	StaticInitialization (MyClass)
+	
+	Loading (creation and loading): chargement de la classe par un class loader, construction d'une instance de Class<?> de la classe via une implémentation de ClassLoader
+	Linking: - verify: vérifier que la représentation de la classe respecte les spécifications de la JVM
+		 	- prepare: allocation de la mémoire des structures de données utilisées en internes par la JVM, ainsi que création des champs statiques à leur valeur par défaut
+		 	- résolution: vérifier les références aux autres classes et load ces classes
+	Initialization: exécution des attributs static, et des blocs static
+	
+	(Les types primitifs ont également une représentation via une instance de Class)
+	
+	jconsole
+	jmap -histo PID > heap.txt
+	
+	Signifie qu'il est capable d'"observer" un champ statique entre sa préparation et son initialisation
+
+Méthodes statiques (StaticMethods)
+	
+	- Ne peuvent appeler que des membres statiques (pas de this ou super)
+	- méthodes statiques à utiliser si la méthode ne dépend d'aucun état d'aucune instance, et si on est sur de ne pas vouloir une méthode polymorphique
+
+import static (ImportStatic)
+classes internes statiques
+
+Les implémentations des JVM doivent gérer des cas délicats: l'initialization parallèle, l'initalization d'une classe A qui accède à un champ statique d'une classe qui 
+elle-même requiert un champ statique de a, etc...
+
+Références:
+
+- J. Bloch et N. Gafter, Java puzzlers: traps, pitfalls, and corner cases. Upper Saddle River, NJ: Addison-Wesley, 2005.
+- J. Bloch, Effective Java, Third edition. Boston: Addison-Wesley, 2018. Items 24, 61
+- R. C. Martin, Éd., Clean code: a handbook of agile software craftsmanship. Upper Saddle River, NJ: Prentice Hall, 2009. (règle G18 p296)
+- H. Schildt, Java: The complete reference, Twelfth edition. New York [NY]: McGraw Hill, 2022. (Chapitre 7 "Understanding static")
+- J. Gosling et al., The Java® Language Specification, Java SE 21 Edition. 2023. (8.3.1.1) (Chapitre 12 résumé cycle de vie VM, JVMS pour la totale)
+- T. Lindholm, F. Yellin, G. Bracha, A. Buckley, et D. Smith, The Java® Virtual Machine Specification Java SE 21 Edition. 2023. (5.4.2; 5.5) 
