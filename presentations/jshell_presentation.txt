@@ -1,0 +1,23 @@
+snippets: bouts de code saisis dans jshell
+
+import java.util.concurrent.atomic.AtomicBoolean
+
+jshell --startup JAVASE
+
+mais problème lorsqu'il y a plusieurs classes/interfaces dans JSE avec même nom -> var a = List.of(1, 2, 5)
+
+print("a") -> erreur  -> ajouter PRINTING
+
+/list -all (ou bien -method, ou bien /methods) -> montrer l'ajout des print dans les snippets
+
+/edit [id snippet] (possibilité de donner un autre éditeur)
+
+/set feedback (verbose, silent)
+
+/! pour exécuter de nouveau le dernier snippet
+
+SHORTCUTS
+
+Shift + Tab + V : créer une variable de même type
+Shift + Tab + M : créer une méthode qui renvoit l'expression
+Shift + Tab + I : propose un import adapté
