@@ -1,0 +1,54 @@
+	Stream
+
+- Functionnel par nature (ne modifie pas sa source)
+ 
+Basé sur un paradigme différent du paradigme orienté objet -> pas de mutation
+
+ OOP -> données et code (sous de méthode) emballés ensemble dans des objects -> les programmes ont donc un état -> les données de tous les objects
+ FP -> le traitement est le concept le plus important (pas de données). traitement -> fonction, qui ne modifie pas les input, mais retourne des nouvelles valeurs
+
+Plein d'exemples de méthodes pures dans java.lang.Math
+
+"Pure" reste du point de vue du programme qu'on exploite, une mise en cache est possible (Integer::valueOf)
+
+
+Stream abstraction: On créé un stream pour dire ce qu'on veut, pas de la façon dont on le veut. Cela est laissé à l'implémentation.
+
+	ParalleleStreams
+	
+Bloch Item 48: "Use caution when making stream parallel"
+
+
+doc package java.util.stream:
+
+	it may actually be counterproductive to perform the operation in parallel. This is because the combining step (merging one Map into another by key) can be expensive for some Map implementations.
+
+	Suppose, however, that the result container used in this reduction was a concurrently modifiable collection -- such as a ConcurrentHashMap. In that case, the parallel invocations of the accumulator could actually deposit their results concurrently into the same shared result container, eliminating the need for the combiner to merge distinct result containers. This potentially provides a boost to the parallel execution performance. We call this a concurrent reduction.
+	
+	A Collector that supports concurrent reduction is marked with the Collector.Characteristics.CONCURRENT characteristic. However, a concurrent collection also has a downside. If multiple threads are depositing results concurrently into a shared container, the order in which results are deposited is non-deterministic. Consequently, a concurrent reduction is only possible if ordering is not important for the stream being processed. The Stream.collect(Collector) implementation will only perform a concurrent reduction if
+
+	    - The stream is parallel;
+	    - The collector has the Collector.Characteristics.CONCURRENT characteristic, and;
+	    - Either the stream is unordered, or the collector has the Collector.Characteristics.UNORDERED characteristic. 
+	    
+	    
+A combination of the following three factors can be crucial in deciding whether a stream should be executed in parallel:
+
+    - Sufficiently large data size. The size of the stream must be sufficiently large enough to warrant parallel processing; otherwise, sequential processing is preferable. 
+    	The startup cost can be too prohibitive for parallel execution if the stream size is too small.
+    - Computation-intensive stream operations. If the stream operations are small computations, the stream size should be proportionately large to warrant parallel execution. 
+    	If the stream operations are computation-intensive, the stream size is less significant, and parallel execution can boost performance.
+    - Easily splitable stream. If the cost of splitting the stream into substreams is higher than the cost of processing the substreams, employing parallel execution can be futile. 
+    	A collection such as an ArrayList, a HashMap, or a simple array are efficiently splitable, whereas a LinkedList or I/O-based datasources are least efficient in this regard.
+
+
+Sources:
+
+
+- Java Magazine
+https://blogs.oracle.com/javamagazine/post/java-quiz-stream-api-side-effects
+https://blogs.oracle.com/javamagazine/post/java-parallel-streams-performance-benchmark
+
+- J. Bloch, Effective Java, Third edition. Boston: Addison-Wesley, 2018. Items 42 -> 48
+
+- Functional Thinking, Neal Ford, 2014, O'Reilly
